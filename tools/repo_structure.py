@@ -1,36 +1,40 @@
 import os
+from .base_tool import BaseTool
 
-def get_repo_structure(repo_path, max_depth=3):
-    """
-    Returns a tree-like structure of the repository.
-    """
+class RepoStructureTool(BaseTool):
+    name = "repo_structure"
+    description = "Returns a tree like strucutre of the repository"
 
-    IGNORED_DIRS = {".git", "__pycache__", "node_modules", ".venv", "venv"}
+    IGNORED_DIRS = {".git", "__pycache__", "node_modules", "venv", ".venv"}
 
-    tree = []
 
-    for root, dirs, files in os.walk(repo_path):
+    def run(self, repo_path, max_depth=3):
 
-        dirs[:] = [d for d in dirs if d not in IGNORED_DIRS]
+        structure = []
 
-        depth = root.replace(repo_path, "").count(os.sep)
+        for root, dirs, files in os.walk(repo_path):
 
-        if depth > max_depth:
-            continue
+            dirs[:] = [d for d in dirs if d not in self.IGNORED_DIRS]
 
-        indent = "  " * depth
+            depth = root.replace(repo_path, "").count(os.sep)
 
-        folder = os.path.basename(root) or "./"
-
-        tree.append(f"{indent}{folder}/")
-
-        file_indent = indent + "  "
-
-        for file in files:
-            if file.startswith("."):
+            if depth > max_depth:
                 continue
 
-            tree.append(f"{file_indent}{file}")
+            indent = "  " * depth
 
-    return "\n".join(tree)  
+            folder = os.path.basename(root) or "./"
+
+            structure.append(f"{indent}{folder}/")
+
+            file_indent = indent + "  "
+
+            for file in files:
+                if file.startswith("."):
+                    continue
+
+                structure.append(f"{file_indent}{file}")
+
+        return "\n".join(structure)
+
 
