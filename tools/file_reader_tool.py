@@ -5,10 +5,15 @@ class FileReaderTool(BaseTool):
     description = "Reads the contents of a file from the repository."
 
     def run(self, file_path, max_chars=4000):
+        
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                content = f.read()
+            return content[:max_chars]
+        
+        except (FileNotFoundError, UnicodeDecodeError) as e:
+            return f"Error reading file: {e}"
+        
 
-        with open(file_path, "r", encoding="utf-8") as f:
-            content = f.read()
-
-        return content[:max_chars]
     
     

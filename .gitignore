@@ -3,3 +3,5 @@ venv
 agents/__pycache__
 
 tools/__pycache__
+
+.env

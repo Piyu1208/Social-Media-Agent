@@ -7,13 +7,6 @@ def run_agent(client, model, messages):
 
     while True:
 
-        
-        json.dumps({
-            "model": model,
-            "messages": messages,
-            "tools": TOOLS_SCHEMAS
-        })
-
         response = client.chat.completions.create(
             model = model,
             messages=messages,
@@ -27,13 +20,15 @@ def run_agent(client, model, messages):
         if msg.tool_calls:
 
             tool_call = msg.tool_calls[0]
-
             tool_name = tool_call.function.name
             args = json.loads(tool_call.function.arguments)
 
-            tool = TOOL_REGISTRY[tool_name]
+            print(f"[Tool Call] {tool_name}({args})")
 
+            tool = TOOL_REGISTRY[tool_name]
             result = tool.run(**args)
+
+            print(f"[Tool Result] {result[:200]}")
 
             messages.append({
                 "role": msg.role,
@@ -53,6 +48,7 @@ def run_agent(client, model, messages):
 
             messages.append({
                 "role": "tool",
+                "tool_call_id": tool_call.id,
                 "name": tool_name,
                 "content": result
             })
