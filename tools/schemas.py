@@ -71,7 +71,7 @@ file_reader_schema = {
 
 
 
-TOOLS_SCHEMA = [
+TOOLS_SCHEMAS = [
     repo_structure_schema,
     commit_reader_schema,
     repo_file_finder_schema,
