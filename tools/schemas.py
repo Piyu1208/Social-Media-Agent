@@ -42,9 +42,9 @@ repo_file_finder_schema = {
         "parameters": {
             "type": "object",
             "properties": {
-                "repo_path": {"type", "string"},
-                "keyword": {"type", "string"},
-                "limit": {"type", "integer"}
+                "repo_path": {"type": "string"},
+                "keyword": {"type": "string"},
+                "limit": {"type": "integer"}
             },
             "required": []
         }
