@@ -45,7 +45,25 @@ repo_file_finder_schema = {
                 "repo_path": {"type", "string"},
                 "keyword": {"type", "string"},
                 "limit": {"type", "integer"}
-            }
+            },
+            "required": []
+        }
+    }
+}
+
+
+file_reader_schema = {
+    "type": "function",
+    "function": {
+        "name": "file_reader",
+        "description": "Reads the content of a file.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "file_path": {"type": "string"},
+                "max_chars": {"type": "integer"}
+            },
+            "required": ["file_path"]
         }
     }
 }
@@ -57,5 +75,5 @@ TOOLS_SCHEMA = [
     repo_structure_schema,
     commit_reader_schema,
     repo_file_finder_schema,
-    
+    file_reader_schema
 ]
